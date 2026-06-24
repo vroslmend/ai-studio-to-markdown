@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "google-ai-studio-exporter"
+version = "1.0.0"
+description = "A lightweight CLI tool to convert Google AI Studio JSON exports to clean Markdown."
+readme = "README.md"
+authors = [
+    { name = "Your Name" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.7"
+
+[project.scripts]
+ai-studio-clean = "extract:main"
