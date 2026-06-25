@@ -29,7 +29,7 @@ You can handle this in two ways:
 
 ## Method 1: Direct Usage (No Installation Required)
 
-This is the simplest way to run the script. You do not need to install anything; you only need the `extract.py` file in your working directory.
+This is the simplest way to run the script. You do not need to install anything; you only need the [`extract.py`](extract.py) file in your working directory.
 
 Run the script directly using Python:
 
