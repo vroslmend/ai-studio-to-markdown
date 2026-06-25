@@ -9,7 +9,7 @@ Google AI Studio exports are packed with configuration metadata, Web Search cita
 - Zero Dependencies: Built entirely with standard Python libraries.
 - Dual-Schema Parsing: Automatically works with both Google Drive Auto-Save files and API payload JSON exports.
 - Metadata Extraction: Appends model settings (version, temperature) and system instructions to the top of the output.
-- Collapsible Thought Logs: Optional -t flag preserves reasoning paths using collapsible HTML <details> tags for clean rendering on GitHub/VS Code.
+- Collapsible Thought Logs: Optional -t flag preserves reasoning paths using collapsible HTML &lt;details&gt; tags for clean rendering on GitHub/VS Code.
 - ISO Timestamp Formatting: Converts system dates into a human-friendly format.
 
 ## Prerequisites
