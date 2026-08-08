@@ -8,6 +8,7 @@ Google AI Studio exports are packed with configuration metadata, Web Search cita
 
 - Zero Dependencies: Built entirely with standard Python libraries.
 - Dual-Schema Parsing: Automatically works with both Google Drive Auto-Save files and API payload JSON exports.
+- Image Extraction: Decodes attached images out of the export and links them inline, so photos you sent to the model aren't lost in conversion.
 - Metadata Extraction: Appends model settings (version, temperature) and system instructions to the top of the output.
 - Collapsible Thought Logs: Optional -t flag preserves reasoning paths using collapsible HTML &lt;details&gt; tags for clean rendering on GitHub/VS Code.
 - ISO Timestamp Formatting: Converts system dates into a human-friendly format.
@@ -100,6 +101,24 @@ ai-studio-clean MyDownloadedFile -o clean_chat.md -t
 - input: Path to your downloaded AI Studio file (required).
 - -o, --output: Define a custom output filename (default: clean_chat.md).
 - -t, --thoughts: Include the model's internal thinking process.
+- --no-images: Skip image extraction and produce the markdown file on its own.
+
+## Attached Images
+
+If the conversation contains images you uploaded, they are decoded and saved into a folder named after your output file, then linked inline in the markdown.
+
+```bash
+python extract.py my_chat.json -o conversation.md
+```
+
+```
+conversation.md
+conversation_images/
+    image_001.jpg
+    image_002.png
+```
+
+Because the images are referenced by relative path, keep the folder next to the markdown file when moving things around, and both will render correctly in VS Code, GitHub, or any standard Markdown viewer. Pass `--no-images` if you only want the text.
 
 ## License
 
