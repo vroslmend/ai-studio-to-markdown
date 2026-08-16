@@ -1,6 +1,4 @@
-"""Command line entry point.
-
-Path resolution follows a strict precedence: explicit arguments win outright
+"""Path resolution follows a strict precedence: explicit arguments win outright
 and never open a dialog; a bare run falls back to the picker.
 """
 

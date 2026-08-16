@@ -41,8 +41,6 @@ def gui_available():
 
 
 class GuiPicker:
-    """Native Open/Save dialogs."""
-
     def _root(self):
         import tkinter
 
@@ -85,8 +83,6 @@ class GuiPicker:
 
 
 class TerminalPicker:
-    """Typed prompts, for headless machines and boxes without tk."""
-
     def __init__(self, io=input):
         self._io = io
 

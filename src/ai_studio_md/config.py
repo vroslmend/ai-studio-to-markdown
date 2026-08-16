@@ -13,7 +13,6 @@ APP_DIR = "ai-studio-md"
 
 
 def config_path():
-    """Per-user config location for the current platform."""
     if sys.platform == "win32":
         base = os.environ.get("APPDATA") or Path.home() / "AppData" / "Roaming"
     else:

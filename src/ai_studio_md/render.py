@@ -1,6 +1,4 @@
-"""Render a parsed Conversation as Markdown.
-
-Reads only the dataclasses from `parse`, never the raw export, so output
+"""Reads only the dataclasses from `parse`, never the raw export, so output
 formatting can change without touching schema handling.
 """
 
@@ -9,7 +7,7 @@ ATTACHMENT_LABELS = {"image": "Image attachment", "document": "Document attachme
 
 
 def _blockquote(text):
-    """Prefix every line, so multi-line instructions stay one quote block."""
+    """Blank lines keep a bare '>' so the quote does not split into two blocks."""
     return "\n".join(f"> {line}" if line.strip() else ">" for line in text.splitlines())
 
 
@@ -92,7 +90,6 @@ def _render_turn(turn, keep_thoughts, drive_links):
 
 
 def render_markdown(conv, keep_thoughts=False, drive_links=False):
-    """Return the full Markdown document for a conversation."""
     lines = _header(conv)
 
     if conv.system_instruction.strip():

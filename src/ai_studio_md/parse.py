@@ -10,7 +10,6 @@ from urllib.parse import parse_qs, urlparse
 
 DRIVE_URL = "https://drive.google.com/file/d/{}/view"
 
-# Attachment chunks carry no text at all, only a Drive file reference.
 ATTACHMENT_KEYS = {"driveImage": "image", "driveDocument": "document"}
 
 
@@ -117,7 +116,6 @@ def _system_instruction(data):
 
 
 def parse_conversation(data):
-    """Build a Conversation from a decoded AI Studio export."""
     settings = data.get("runSettings", {})
 
     # Drive auto-save uses chunkedPrompt.chunks; API payloads use contents.
