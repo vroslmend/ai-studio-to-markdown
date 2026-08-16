@@ -67,7 +67,7 @@ def _summarise(conv):
 
 def build_parser():
     parser = argparse.ArgumentParser(
-        prog="ai-studio-clean",
+        prog="ai-studio-md",
         description="Convert a Google AI Studio export into clean Markdown. "
         "Run with no arguments to pick the files interactively.",
     )

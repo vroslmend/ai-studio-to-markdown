@@ -20,6 +20,8 @@ requires-python = ">=3.8"
 dependencies = []
 
 [project.scripts]
+ai-studio-md = "ai_studio_md.cli:main"
+# Kept so existing installs and muscle memory keep working.
 ai-studio-clean = "ai_studio_md.cli:main"
 
 [project.optional-dependencies]

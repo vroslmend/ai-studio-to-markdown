@@ -9,7 +9,7 @@ import os
 import sys
 from pathlib import Path
 
-APP_DIR = "ai-studio-clean"
+APP_DIR = "ai-studio-md"
 
 
 def config_path():

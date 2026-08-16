@@ -6,7 +6,7 @@ Google AI Studio exports are packed with configuration metadata, Web Search cita
 
 ## Quick start
 
-Download a chat from Google AI Studio, then clone this repository and run:
+Download a chat from Google AI Studio, then get a copy of this repository. Either clone it, or use the green Code button above and choose Download ZIP if you do not have git. Open a terminal in that folder and run:
 
 ```bash
 python extract.py
@@ -21,7 +21,7 @@ python extract.py your_chat_file.json -o conversation.md
 python extract.py your_chat_file.json -o conversation.md -t
 ```
 
-To run the tool from any folder on your computer as `ai-studio-clean`, see [Installation](#installation) below.
+To run the tool from any folder on your computer as `ai-studio-md`, see [Installation](#installation) below.
 
 ## Features
 
@@ -51,11 +51,11 @@ When you download chat logs from the "Google AI Studio" folder in Google Drive, 
 
 You do not have to install anything. Running `python extract.py` from a clone of this repository works on its own, as shown in Quick start above.
 
-Installing is only worth it if you use the tool often. It gives you an `ai-studio-clean` command that works from any folder, so you never have to be inside the repository:
+Installing is only worth it if you use the tool often. It gives you an `ai-studio-md` command that works from any folder, so you never have to be inside the repository:
 
 ```bash
-ai-studio-clean                                     # pick files in a dialog
-ai-studio-clean your_chat_file.json -o out.md       # or pass paths
+ai-studio-md                                     # pick files in a dialog
+ai-studio-md your_chat_file.json -o out.md       # or pass paths
 ```
 
 ### Option A: via pip
@@ -109,8 +109,8 @@ That keeps the conversation readable without putting anything private in the fil
 
 The last-used input and output folders are remembered in:
 
-- Windows: `%APPDATA%\ai-studio-clean\config.json`
-- macOS/Linux: `~/.config/ai-studio-clean/config.json`
+- Windows: `%APPDATA%\ai-studio-md\config.json`
+- macOS/Linux: `~/.config/ai-studio-md/config.json`
 
 Delete that file to reset. Nothing else is stored, and it never contains chat content.
 
