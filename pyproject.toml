@@ -3,19 +3,31 @@ requires = ["setuptools>=61.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "google-ai-studio-exporter"
-version = "1.0.0"
+name = "ai-studio-to-markdown"
+version = "2.0.0"
 description = "A lightweight CLI tool to convert Google AI Studio JSON exports to clean Markdown."
 readme = "README.md"
-authors = [
-    { name = "Your Name" }
-]
+license = { text = "MIT" }
+authors = [{ name = "Ammar Hassan" }]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Topic :: Text Processing :: Markup :: Markdown",
 ]
-requires-python = ">=3.7"
+requires-python = ">=3.8"
+dependencies = []
 
 [project.scripts]
-ai-studio-clean = "extract:main"
+ai-studio-clean = "ai_studio_md.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
