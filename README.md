@@ -6,28 +6,30 @@ Google AI Studio exports are packed with configuration metadata, Web Search cita
 
 ## Quick start
 
-Run it with no arguments and pick your files:
+Download a chat from Google AI Studio, then clone this repository and run:
 
 ```bash
-ai-studio-clean
+python extract.py
 ```
 
-A file dialog opens so you can browse to the downloaded export, then a save dialog asks where the Markdown should go. Both reopen wherever you were last time, so after the first run you just double-click the file and hit Save.
+A file dialog opens so you can browse to the downloaded chat, then a second dialog asks where to save the Markdown. Both dialogs reopen at the folders you used last time, so from the second run onwards it is just double-click and Save.
 
-Passing paths directly still works exactly as before:
+If you would rather type the paths, pass them as arguments:
 
 ```bash
-ai-studio-clean your_chat_file.json -o conversation.md
-ai-studio-clean your_chat_file.json -o conversation.md -t
+python extract.py your_chat_file.json -o conversation.md
+python extract.py your_chat_file.json -o conversation.md -t
 ```
+
+To run the tool from any folder on your computer as `ai-studio-clean`, see [Installation](#installation) below.
 
 ## Features
 
 - Zero Dependencies: Built entirely with standard Python libraries.
-- Interactive File Picking: Running the command bare opens native Open/Save dialogs that remember your last folders, so you never type a path.
-- Headless Fallback: If no graphical dialog is available, it falls back to terminal prompts and names the package you need. Explicit path arguments never touch the GUI, so scripted and CI runs work anywhere.
+- Interactive File Picking: Running it with no arguments opens ordinary Open and Save dialogs that remember your last folders, so you never have to type a file path.
+- Headless Fallback: On a machine with no graphical dialogs, it asks for the paths in the terminal instead and tells you which package to install. Passing paths as arguments never opens a dialog at all, so automated runs work anywhere.
 - Dual-Schema Parsing: Automatically works with both Google Drive Auto-Save files and API payload JSON exports.
-- Attachment Preservation: Images and documents shared into the chat stay marked in place instead of disappearing, so replies that refer to them still make sense. No Drive file IDs are written unless you ask for them.
+- Attachment Preservation: Images and documents you shared in the chat are marked in place, so replies that refer to them still make sense. No Google Drive file IDs are written into the output unless you ask for them.
 - Source Retention: Web Search citations become a readable source list, and grounded answers keep their numbered footnotes.
 - Metadata Extraction: Appends model settings (version, temperature, top-P, top-K, thinking level, token count) and system instructions to the top of the output.
 - Collapsible Thought Logs: Optional -t flag preserves reasoning paths using collapsible HTML &lt;details&gt; tags for clean rendering on GitHub/VS Code.
@@ -45,16 +47,16 @@ When you download chat logs from the "Google AI Studio" folder in Google Drive, 
 
 ---
 
-## Method 1: Direct usage (no installation)
+## Installation
 
-You only need a clone of this repository:
+You do not have to install anything. Running `python extract.py` from a clone of this repository works on its own, as shown in Quick start above.
+
+Installing is only worth it if you use the tool often. It gives you an `ai-studio-clean` command that works from any folder, so you never have to be inside the repository:
 
 ```bash
-python extract.py                                  # pick files interactively
-python extract.py your_chat_file.json -o out.md    # or pass paths
+ai-studio-clean                                     # pick files in a dialog
+ai-studio-clean your_chat_file.json -o out.md       # or pass paths
 ```
-
-## Method 2: Global installation (run from anywhere)
 
 ### Option A: via pip
 
@@ -84,10 +86,10 @@ pipx install git+https://github.com/vroslmend/ai-studio-to-markdown.git
 
 | Argument | Description |
 |---|---|
-| `input` | Path to your AI Studio export. Optional; omit it to pick the file in a dialog. |
-| `-o`, `--output` | Where to write the Markdown. Omit it and you'll be asked, or it defaults to the input filename with a `.md` extension. |
-| `-t`, `--thoughts` | Include the model's reasoning in collapsible sections. Works with the picker too. |
-| `--drive-links` | Turn attachment markers into clickable Google Drive links. Off by default, because the link embeds the private file ID of your Drive file into the output. |
+| `input` | The chat file you downloaded. Leave it out and a dialog opens so you can browse for it. |
+| `-o`, `--output` | Where to save the Markdown. If you gave an input file, this defaults to the same name and folder ending in `.md`. If you did not, a save dialog asks you. |
+| `-t`, `--thoughts` | Include the model's reasoning, hidden inside collapsible sections you can expand. Off by default, because it roughly doubles the file size. |
+| `--drive-links` | Turn attachment markers into clickable Google Drive links. Off by default, because the link contains the private ID of your Drive file. |
 
 ## A note on attachments
 
