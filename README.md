@@ -4,102 +4,120 @@ A lightweight, zero-dependency Python CLI utility to convert Google AI Studio ex
 
 Google AI Studio exports are packed with configuration metadata, Web Search citations, and massive Base64 cryptographic thought signatures. This tool extracts the core conversation, styles it clearly, and strips out the noise.
 
+## Quick start
+
+Run it with no arguments and pick your files:
+
+```bash
+ai-studio-clean
+```
+
+A file dialog opens so you can browse to the downloaded export, then a save dialog asks where the Markdown should go. Both reopen wherever you were last time, so after the first run you just double-click the file and hit Save.
+
+Passing paths directly still works exactly as before:
+
+```bash
+ai-studio-clean your_chat_file.json -o conversation.md
+ai-studio-clean your_chat_file.json -o conversation.md -t
+```
+
 ## Features
 
 - Zero Dependencies: Built entirely with standard Python libraries.
+- Interactive File Picking: Running the command bare opens native Open/Save dialogs that remember your last folders, so you never type a path.
+- Headless Fallback: If no graphical dialog is available, it falls back to terminal prompts and names the package you need. Explicit path arguments never touch the GUI, so scripted and CI runs work anywhere.
 - Dual-Schema Parsing: Automatically works with both Google Drive Auto-Save files and API payload JSON exports.
-- Metadata Extraction: Appends model settings (version, temperature) and system instructions to the top of the output.
+- Attachment Preservation: Images and documents shared into the chat stay marked in place instead of disappearing, so replies that refer to them still make sense. No Drive file IDs are written unless you ask for them.
+- Source Retention: Web Search citations become a readable source list, and grounded answers keep their numbered footnotes.
+- Metadata Extraction: Appends model settings (version, temperature, top-P, top-K, thinking level, token count) and system instructions to the top of the output.
 - Collapsible Thought Logs: Optional -t flag preserves reasoning paths using collapsible HTML &lt;details&gt; tags for clean rendering on GitHub/VS Code.
 - ISO Timestamp Formatting: Converts system dates into a human-friendly format.
 
 ## Prerequisites
 
-- Python 3.7 or higher.
+- Python 3.8 or higher.
 
-## Note on Google Drive Downloads
+The file dialogs use `tkinter`, which ships with Python on Windows and with the python.org builds on macOS. On Linux it's usually a separate package (`python3-tk` on Debian/Ubuntu, `python3-tkinter` on Fedora). Without it the tool falls back to terminal prompts rather than failing.
 
-When you download your chat logs directly from the "Google AI Studio" folder in Google Drive, Google downloads them without any file extension (as an unknown file type).
+## Note on Google Drive downloads
 
-You can handle this in two ways:
-
-1. Rename the file: Append .json to the file you downloaded (e.g., rename MyChat to MyChat.json).
-2. Run the script directly: The Python script does not require a specific extension to parse the data. You can pass the extensionless file straight to the script.
+When you download chat logs from the "Google AI Studio" folder in Google Drive, they arrive without a file extension. You do not need to rename them. The tool parses by content, not by extension, and the Open dialog shows all files by default.
 
 ---
 
-## Method 1: Direct Usage (No Installation Required)
+## Method 1: Direct usage (no installation)
 
-This is the simplest way to run the script. You do not need to install anything; you only need the [`extract.py`](extract.py) file in your working directory.
-
-Run the script directly using Python:
+You only need a clone of this repository:
 
 ```bash
-# Basic extraction (strips model thoughts for maximum readability)
-python extract.py your_chat_file.json -o conversation.md
-
-# Keep the model's reasoning/thoughts inside dropdown menus
-python extract.py your_chat_file.json -o conversation.md -t
+python extract.py                                  # pick files interactively
+python extract.py your_chat_file.json -o out.md    # or pass paths
 ```
 
----
+## Method 2: Global installation (run from anywhere)
 
-## Method 2: Global Installation (Run from Anywhere)
-
-If you use this tool frequently, you can install it globally on your system to run the `ai-studio-clean` command from any directory without typing out Python file paths.
-
-### Option A: Standard Installation (Via Pip)
-
-If you have cloned the repository, navigate to the folder and run:
+### Option A: via pip
 
 ```bash
 pip install .
+pip install -e .    # editable, if you plan to modify it
 ```
 
-If you are a developer planning to modify the script, install it in editable mode so changes sync automatically:
+### Option B: macOS and modern Linux, via pipx
 
-```bash
-pip install -e .
-```
-
-### Option B: For macOS and Modern Linux (Via Pipx)
-
-Newer operating systems restrict global pip installations to protect system files. If you run into an `externally-managed-environment` error, use `pipx` instead:
+Newer operating systems restrict global pip installs. If you hit an `externally-managed-environment` error, use `pipx`:
 
 ```bash
 pipx install .
 ```
 
-### Option C: Direct Installation from GitHub
-
-You can install the tool globally straight from GitHub without manually cloning the repository:
+### Option C: straight from GitHub
 
 ```bash
-# Using pip
-pip install git+https://github.com/yourusername/google-ai-studio-exporter.git
-
-# Using pipx (macOS/Linux recommended)
-pipx install git+https://github.com/yourusername/google-ai-studio-exporter.git
-```
-
-### Usage after Global Installation
-
-Once installed, navigate to any folder (such as your Downloads folder) and run the command directly:
-
-```bash
-# Basic usage
-ai-studio-clean MyDownloadedFile -o clean_chat.md
-
-# Including thoughts
-ai-studio-clean MyDownloadedFile -o clean_chat.md -t
+pip install git+https://github.com/vroslmend/ai-studio-to-markdown.git
+pipx install git+https://github.com/vroslmend/ai-studio-to-markdown.git
 ```
 
 ---
 
 ## Options
 
-- input: Path to your downloaded AI Studio file (required).
-- -o, --output: Define a custom output filename (default: clean_chat.md).
-- -t, --thoughts: Include the model's internal thinking process.
+| Argument | Description |
+|---|---|
+| `input` | Path to your AI Studio export. Optional; omit it to pick the file in a dialog. |
+| `-o`, `--output` | Where to write the Markdown. Omit it and you'll be asked, or it defaults to the input filename with a `.md` extension. |
+| `-t`, `--thoughts` | Include the model's reasoning in collapsible sections. Works with the picker too. |
+| `--drive-links` | Turn attachment markers into clickable Google Drive links. Off by default, because the link embeds the private file ID of your Drive file into the output. |
+
+## A note on attachments
+
+Images and documents you paste into a chat are not stored in the export itself. The file only records a pointer to your Google Drive.
+
+By default the tool writes a plain marker where the attachment sat:
+
+```
+### User _Jun 17, 2026 - 02:54 PM_
+
+[Image attachment]
+```
+
+That keeps the conversation readable without putting anything private in the file, so the Markdown is safe to share. Pass `--drive-links` and the marker becomes a link to the file in your Drive instead. Useful for your own notes; worth thinking twice about before sending that file to anyone else.
+
+## Where settings are stored
+
+The last-used input and output folders are remembered in:
+
+- Windows: `%APPDATA%\ai-studio-clean\config.json`
+- macOS/Linux: `~/.config/ai-studio-clean/config.json`
+
+Delete that file to reset. Nothing else is stored, and it never contains chat content.
+
+## Development
+
+```bash
+pip install -e ".[dev]"
+pytest
+```
 
 ## License
 
